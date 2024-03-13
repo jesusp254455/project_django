@@ -1,10 +1,13 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from .models import Project
+from .models import Project, Task
 # Create your views here.
 
 def index(request):
-    return HttpResponse("pag principal")
+    title = 'Django aprendiendo'
+    return render( request, "index.html",{
+        'titulo': title
+    })
 
 def hellow(request, name):
     print(name)
@@ -14,5 +17,19 @@ def about(request):
     return HttpResponse('About')
 
 def projects(request):
-    projects = list(Project.objects.values())
-    return JsonResponse(projects, safe=False)
+    # projects = list(Project.objects.values())
+    projects = Project.objects.all()
+    return render(request, 'projects.html',{
+        'pros':projects
+    })
+
+def task_view(request):
+    tasks = Task.objects.all()  # Correct the typo 'objetcs' to 'objects'
+    print(list(Task.objects.all()))
+    return render(request,'task.html',{
+        'task':tasks
+    })
+
+def task_2(request):
+    return render(request,'create_task.html')
+
